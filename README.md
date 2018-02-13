@@ -23,17 +23,17 @@ Before you instantiate an instance of `MyPDOMS`, you need to configure it. Confi
 `setConfig` method, which expects a single parameter of type array. The structure of the expected associative array is:
 
 - `[config name]` - The name of a configuration. Configurations are collections of servers.
-    - `master` - Database configuration for your master server
-        - `host` - The host where this database is running (required)
-        - `port` - The port on which this database is running (optional; defaults to 3306)
-        - `username` - Database username (optional; defers to constructor argument if missing)
-        - `password` - Database password (optional; defers to constructor argument if missing)
-    - `slaves` - Contains your slave server database configurations
-        - `[slave name]` - Database configuration for a slave server (can be anything except `master`)
-            - `host` - The host where this database is running (required)
-                    - `port` - The port on which this database is running (optional; defaults to 3306)
-                    - `username` - Database username (optional; defers to constructor argument if missing)
-                    - `password` - Database password (optional; defers to constructor argument if missing)
+	- `master` - Database configuration for your master server
+		- `host` - The host where this database is running (required)
+		- `port` - The port on which this database is running (optional; defaults to 3306)
+		- `username` - Database username (optional; defers to constructor argument if missing)
+		- `password` - Database password (optional; defers to constructor argument if missing)
+	- `slaves` - Contains your slave server database configurations
+		- `[slave name]` - Database configuration for a slave server (can be anything except `master`)
+			- `host` - The host where this database is running (required)
+			- `port` - The port on which this database is running (optional; defaults to 3306)
+			- `username` - Database username (optional; defers to constructor argument if missing)
+			- `password` - Database password (optional; defers to constructor argument if missing)
 
 So, for example, you might want to do this:
 
@@ -48,27 +48,27 @@ MyPDOMS::setConfig([
 			'port' => 3306,
 			'username' => 'my_site_user',
 			'password' => 'apples'
-        ],
-        'slaves' => [
-        	'slave_1' => [
-        		'host' => '10.0.1.1',
-        		'username' => 'slave_user',
-        		'password' => 'readonly'
-            ],
-            'slave_2' => [
-            	'host' => '10.0.1.2',
-            	'username' => 'slave_user',
-            	'password' => 'readonly'
-            ]
-        ]
-    ],
-    'my_site_2' => [
-    	'master' => [
-    		'host' => 'localhost',
-    		'username' => 'my_site_2_user',
-    		'password' => 'oranges'
-        ]
-    ]
+		],
+		'slaves' => [
+			'slave_1' => [
+				'host' => '10.0.1.1',
+				'username' => 'slave_user',
+				'password' => 'readonly'
+			],
+			'slave_2' => [
+				'host' => '10.0.1.2',
+				'username' => 'slave_user',
+				'password' => 'readonly'
+			]
+		]
+	],
+	'my_site_2' => [
+		'master' => [
+			'host' => 'localhost',
+			'username' => 'my_site_2_user',
+			'password' => 'oranges'
+		]
+	]
 ]);
 ```
 
@@ -84,7 +84,7 @@ but with these caveats:
 - The `host` in the DSN should be the name of one of your configurations (in the above example, `my_site_1` or `my_site_2`)
 - The `port` in the DSN is ignored if supplied
 - If you supply database credentials (`$username` and `$passwd`) in both the constructor and in your config (`setConfig`), `setConfig` wins
-    - For this reason it's recommended you supply your credentials in `setConfig`, to prevent any possible credential leakage e.g. in stack traces
+	- For this reason it's recommended you supply your credentials in `setConfig`, to prevent any possible credential leakage e.g. in stack traces
 - Any connection `$options` you supply will be used for establishing connections to the master **and** to all slave connections
 
 Here's an example:
@@ -104,23 +104,23 @@ with these core differences:
 - The differences noted above in the [Establishing a Connection](#establishing-a-connection) section
 - The `lastUsedHost` property contains the name of the last host that was sent a query (e.g. `master` or `slave_1`)
 - These methods will always be sent to the master connection:
-    - [`beginTransaction`](http://php.net/manual/en/pdo.begintransaction.php)
-    - [`commit`](http://php.net/manual/en/pdo.commit.php)
-    - [`rollBack`](http://php.net/manual/en/pdo.rollback.php)
-    - [`inTransaction`](http://php.net/manual/en/pdo.intransaction.php)
-    - [`lastInsertId`](http://php.net/manual/en/pdo.lastinsertid.php)
-    - [`quote`](http://php.net/manual/en/pdo.quote.php)
-        - Although `quote` does not result in any network I/O, it's always called on the master connection
+	- [`beginTransaction`](http://php.net/manual/en/pdo.begintransaction.php)
+	- [`commit`](http://php.net/manual/en/pdo.commit.php)
+	- [`rollBack`](http://php.net/manual/en/pdo.rollback.php)
+	- [`inTransaction`](http://php.net/manual/en/pdo.intransaction.php)
+	- [`lastInsertId`](http://php.net/manual/en/pdo.lastinsertid.php)
+	- [`quote`](http://php.net/manual/en/pdo.quote.php)
+		- Although `quote` does not result in any network I/O, it's always called on the master connection
 - These methods will be sent to the connection named by `lastUsedHost`:
-    - [`errorCode`](http://php.net/manual/en/pdo.errorcode.php)
-    - [`errorInfo`](http://php.net/manual/en/pdo.errorinfo.php)
+	- [`errorCode`](http://php.net/manual/en/pdo.errorcode.php)
+	- [`errorInfo`](http://php.net/manual/en/pdo.errorinfo.php)
 - [`getAvailableDrivers`](http://php.net/manual/en/pdo.getavailabledrivers.php) will always return `['mysql']`
 - Calling [`setAttribute`](http://php.net/manual/en/pdo.setattribute.php) will result in this sequence of events:
-    - The attribute and value you passed in will be stored internally in the `MyPDOMS` object
-    - The attribute will be set on the master connection
-    - The attribute will be set on any established slave connections
-    - When a new slave connection is established, all previously-set attributes will be immediately set on it
-    - Returns `true` iff all connections returned `true` when `setAttribute` was called on them
+	- The attribute and value you passed in will be stored internally in the `MyPDOMS` object
+	- The attribute will be set on the master connection
+	- The attribute will be set on any established slave connections
+	- When a new slave connection is established, all previously-set attributes will be immediately set on it
+	- Returns `true` iff all connections returned `true` when `setAttribute` was called on them
 - Calling [`getAttribute`](http://php.net/manual/en/pdo.getattribute.php) will return the value from the internal cache, not from a `PDO` connection object
 - [`prepare`](http://php.net/manual/en/pdo.prepare.php), [`query`](http://php.net/manual/en/pdo.query.php), and [`exec`](http://php.net/manual/en/pdo.exec.php) will route to a connection based on the criteria noted in [Query Routing](#query-routing)
 
@@ -129,9 +129,9 @@ with these core differences:
 Queries will be routed to either the master or to a slave depending on this sequence of checks:
 
 1. Leading comments in the SQL will be checked for [SQL Hints](#sql-hints)
-    1. If `HINT_MASTER` is found then the query will be sent to the master
-    2. If `HINT_SLAVE` is found then the query will be sent to a slave
-    3. If `HINT_LAST_USED` is found then the query will be sent to the last used connection
+	1. If `HINT_MASTER` is found then the query will be sent to the master
+	2. If `HINT_SLAVE` is found then the query will be sent to a slave
+	3. If `HINT_LAST_USED` is found then the query will be sent to the last used connection
 2. If the first SQL-word is one of `INSERT`, `UPDATE`, `DELETE`, `REPLACE`, or `LOAD` then the query will be sent to the master
 3. If the first SQL-word is `SELECT` and the query ends in `FOR UPDATE` then the query will be sent to the master
 4. If none of the above match, then the query will be sent to a slave
@@ -146,9 +146,9 @@ These SQL hints are available, and should be prepended to queries in a comment:
 - `MyPDOMS::HINT_MASTER` - Send this query to the master
 - `MyPDOMS::HINT_SLAVE` - Send this query to a slave
 - `MyPDOMS::HINT_LAST_USED` - Send this query to the server last used
-    - This may be the master, if the master was last used
-    - If the last used server was a slave, then the query will be sent to that slave
-    
+	- This may be the master, if the master was last used
+	- If the last used server was a slave, then the query will be sent to that slave
+	
 Example:
 
 ```php
@@ -166,9 +166,9 @@ If you want to replace mysqlnd_ms and not go back and update all your code, you 
 use Corn\MyPDOMS\MyPDOMS;
 
 if (!defined('MYSQLND_MS_MASTER_SWITCH')) {
-    define('MYSQLND_MS_MASTER_SWITCH', MyPDOMS::HINT_MASTER);
-    define('MYSQLND_MS_SLAVE_SWITCH', MyPDOMS::HINT_SLAVE);
-    define('MYSQLND_MS_LAST_USED_SWITCH', MyPDOMS::HINT_LAST_USED);
+	define('MYSQLND_MS_MASTER_SWITCH', MyPDOMS::HINT_MASTER);
+	define('MYSQLND_MS_SLAVE_SWITCH', MyPDOMS::HINT_SLAVE);
+	define('MYSQLND_MS_LAST_USED_SWITCH', MyPDOMS::HINT_LAST_USED);
 }
 ```
 
