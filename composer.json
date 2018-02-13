@@ -1,0 +1,17 @@
+{
+	"name": "corn/mypdoms",
+	"description": "Pure-PHP clone-implementation of mysqlnd_ms built on top of PDO",
+	"type": "library",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Alex Corn",
+			"email": "alex@alexcorn.com"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"Corn\\MyPDOMS\\": "src/"
+		}
+	}
+}
