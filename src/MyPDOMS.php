@@ -26,7 +26,7 @@ class MyPDOMS extends PDO {
 	protected $password;
 	protected $connectOptions;
 
-	/** @var array */
+	/** @var array $attributes */
 	protected $attributes = [];
 
 	/** @var PDO $master */
