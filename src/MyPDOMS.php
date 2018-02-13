@@ -89,6 +89,7 @@ class MyPDOMS extends PDO {
 		$this->password = $passwd;
 
 		$dsn_params['host'] = '{{host}}';
+		$dsn_params['port'] = '{{port}}';
 		$this->dsn = 'mysql:' . implode(';', $dsn_params);
 		// try to connect to the master immediately
 
@@ -119,9 +120,13 @@ class MyPDOMS extends PDO {
 			throw new \Exception('No host config for ' . $configName);
 		}
 
+		if (!isset($config['port'])) {
+			$config['port'] = 3306;
+		}
+
 		$username = isset($config['username']) ? $config['username'] : $this->username;
 		$password = isset($config['password']) ? $config['password'] : $this->password;
-		$dsn = str_replace('{{host}}', $config['host'], $this->dsn);
+		$dsn = str_replace(['{{host}}', '{{port}}'], [$config['host'], $config['port']], $this->dsn);
 		$pdo = new PDO($dsn, $username, $password, $this->connectOptions);
 
 		foreach ($this->attributes as $attr => $val) {
