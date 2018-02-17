@@ -90,6 +90,7 @@ class MyPDOMS extends PDO {
 
 		$dsn_params['host'] = '{{host}}';
 		$dsn_params['port'] = '{{port}}';
+		array_walk($dsn_params, function(&$val, $key) { $val = "$key=$val"; });
 		$this->dsn = 'mysql:' . implode(';', $dsn_params);
 		// try to connect to the master immediately
 
