@@ -83,8 +83,8 @@ but with these caveats:
 
 - The `host` in the DSN should be the name of one of your configurations (in the above example, `my_site_1` or `my_site_2`)
 - The `port` in the DSN is ignored if supplied
-- If you supply database credentials (`$username` and `$passwd`) in both the constructor and in your config (`setConfig`), `setConfig` wins
-	- For this reason it's recommended you supply your credentials in `setConfig`, to prevent any possible credential leakage e.g. in stack traces
+- If you supply database credentials (`$username` and `$passwd`) in both the constructor and in your config (`setConfig`), the constructor wins
+	- It's recommended you supply your credentials in `setConfig`, to prevent any possible credential leakage e.g. in stack traces
 - Any connection `$options` you supply will be used for establishing connections to the master **and** to all slave connections
 
 Here's an example:

@@ -125,8 +125,8 @@ class MyPDOMS extends PDO {
 			$config['port'] = 3306;
 		}
 
-		$username = isset($config['username']) ? $config['username'] : $this->username;
-		$password = isset($config['password']) ? $config['password'] : $this->password;
+		$username = $this->username ?: $config['username']; // will raise a notice if neither is set, which we want
+		$password = $this->password ?: $config['password'];
 		$dsn = str_replace(['{{host}}', '{{port}}'], [$config['host'], $config['port']], $this->dsn);
 		$pdo = new PDO($dsn, $username, $password, $this->connectOptions);
 
