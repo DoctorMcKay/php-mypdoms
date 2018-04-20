@@ -8,7 +8,7 @@ class MyPDOMS extends PDO {
 	const HINT_SLAVE = 'ms=slave';
 	const HINT_LAST_USED = 'ms=last_used';
 
-	const MASTER_COMMANDS = ['INSERT', 'UPDATE', 'DELETE', 'REPLACE', 'LOAD'];
+	const MASTER_COMMANDS = ['INSERT', 'UPDATE', 'DELETE', 'REPLACE', 'LOAD', 'ALTER', 'CREATE', 'DROP', 'RENAME', 'TRUNCATE'];
 
 	/** @var array $config */
 	protected static $config = [];

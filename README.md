@@ -132,7 +132,7 @@ Queries will be routed to either the master or to a slave depending on this sequ
 	1. If `HINT_MASTER` is found then the query will be sent to the master
 	2. If `HINT_SLAVE` is found then the query will be sent to a slave
 	3. If `HINT_LAST_USED` is found then the query will be sent to the last used connection
-2. If the first SQL-word is one of `INSERT`, `UPDATE`, `DELETE`, `REPLACE`, or `LOAD` then the query will be sent to the master
+2. If the first SQL-word is one of `INSERT`, `UPDATE`, `DELETE`, `REPLACE`, `LOAD`, `ALTER`, `CREATE`, `DROP`, `RENAME`, or `TRUNCATE` then the query will be sent to the master
 3. If the first SQL-word is `SELECT` and the query ends in `FOR UPDATE` then the query will be sent to the master
 4. If none of the above match, then the query will be sent to a slave
 
