@@ -123,6 +123,7 @@ with these core differences:
 	- Returns `true` iff all connections returned `true` when `setAttribute` was called on them
 - Calling [`getAttribute`](http://php.net/manual/en/pdo.getattribute.php) will return the value from the internal cache, not from a `PDO` connection object
 - [`prepare`](http://php.net/manual/en/pdo.prepare.php), [`query`](http://php.net/manual/en/pdo.query.php), and [`exec`](http://php.net/manual/en/pdo.exec.php) will route to a connection based on the criteria noted in [Query Routing](#query-routing)
+- You can set the property `alwaysUseMaster` to true to always use the master connection, despite wherever the query would ordinarily be routed
 
 # Query Routing
 

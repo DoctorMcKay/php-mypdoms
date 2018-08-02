@@ -15,6 +15,8 @@ class MyPDOMS extends PDO {
 
 	/** @var array $dbConfig Config from static::$config */
 	protected $dbConfig;
+	/** @var bool $alwaysUseMaster Always use the master connection despite any hints or whatever the command is */
+	public $alwaysUseMaster = false;
 
 	// options for PDO constructors
 	/** @var string $dsn */
@@ -143,6 +145,12 @@ class MyPDOMS extends PDO {
 	 * @throws \Exception
 	 */
 	protected function getQueryConnection($query) {
+		if ($this->alwaysUseMaster) {
+			$this->last = $this->master;
+			$this->lastUsedHost = 'master';
+			return $this->master;
+		}
+
 		$query = trim($query);
 		$preceding_comment = '';
 		$len = strlen($query);
