@@ -184,6 +184,10 @@ class MyPDOMS extends PDO {
 
 		// no applicable hints
 		$query = strtoupper(trim(substr($query, $i)));
+		// replace tabs with spaces to prevent things from breaking
+        $query = str_replace("\t", "    ", $query);
+        // also remove newlines
+        $query = str_replace("\n", "", $query);
 		$tokens = explode(' ', $query);
 
 		$command = $tokens[0];
