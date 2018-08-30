@@ -13,5 +13,8 @@
 		"psr-4": {
 			"Corn\\MyPDOMS\\": "src/"
 		}
+	},
+	"require": {
+		"ext-PDO": "*"
 	}
 }
