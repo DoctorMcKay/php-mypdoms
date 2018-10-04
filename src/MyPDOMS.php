@@ -190,7 +190,7 @@ class MyPDOMS extends PDO {
 		$query = str_replace("\n", "", $query);
 		$tokens = explode(' ', $query);
 
-		$command = $tokens[0];
+		$command = trim($tokens[0]);
 		if (in_array($command, static::MASTER_COMMANDS)) {
 			$this->last = $this->master;
 			$this->lastUsedHost = 'master';
