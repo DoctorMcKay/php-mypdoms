@@ -312,8 +312,8 @@ class MyPDOMS extends PDO {
 	 * @return \PDOStatement
 	 * @throws \Exception
 	 */
-	public function prepare($statement, $driver_options = null) {
-		return $this->getQueryConnection($statement)->prepare($statement, $driver_options ?: []);
+	public function prepare($statement, array $driver_options = array()) {
+		return $this->getQueryConnection($statement)->prepare($statement, $driver_options);
 	}
 
 	/**
